@@ -16,12 +16,11 @@ class RegistrationForm extends React.Component { //如果直接用RegistrationFo
             }
         });
     };
-// 光标移出，设置confirmdirty
-    handleConfirmBlur = e => {
+// 光标移出，设置confirmdirty  // handleConfirmBlur confirmDirty 只在handleConfirmBlur中触发变化。而confirmDirty表明confirm password是否有内容。 false || true = true。 本质为了什么：line42触发validate
+    handleConfirmBlur = e => { /*event 算是function的参数，但是这个参数是关于window里面的值*/
         const { value } = e.target;
-        console.log(1);
         console.log(' handleConfirmBlur before ->', this.state.confirmDirty);
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value }); // !!value 是否存在，值是否，强制把值转换成true or false,有值 true, 没值false. 为了confirmDirty。 // handleConfirmBlur confirmDirty 只在handleConfirmBlur中触发，变化。儿confirmDirty表面confirm password是否有内容。 false || true = true。 本质为了什么：也不是为了validate
+        this.setState({ confirmDirty: this.state.confirmDirty || !!value }); // value指的confirm password 是否有value// !!value 是否存在，值是否，强制把值转换成true or false,有值 true, 没值false. 为了confirmDirty。
         console.log(' handleConfirmBlur after ->', this.state.confirmDirty);
     };
 
@@ -31,17 +30,17 @@ class RegistrationForm extends React.Component { //如果直接用RegistrationFo
         if (value && value !== form.getFieldValue('password')) { //取password作为id的form里面的值， getFieldDecorator('password',
             callback('Two passwords that you enter is inconsistent!');
         } else {
-            callback(); // form's property validator,  callback().
+            callback(); // form's property validator,  callback(). antdeisng api写好的, 空。
         }
     };
-    // 校验function //第一次passwor输入，confirmDirty不变化
+    // 校验function //第一次password输入，confirmDirty不变化
     validateToNextPassword = (rule, value, callback) => {
         const { form } = this.props;
         console.log('1 ->', rule);
         console.log('2 ->', value);
         console.log('validateToNextPassword before ->', this.state.confirmDirty);
         if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force: true });
+            form.validateFields(['confirm'], { force: true });/*validateFields 是antdesign api，confirm id 找到form item line 105开始执行， compareToFirstPassword. */
             // 'confirm' as id
         }
         console.log('validateToNextPassword after ->', this.state.confirmDirty);
@@ -101,7 +100,8 @@ console.log(this.props.form);
                         ],
                     })(<Input.Password />)}
                 </Form.Item>
-                <Form.Item label="Confirm Password" hasFeedback>
+
+                <Form.Item label="Confirm Password" hasFeedback>   /*按顺序执行, getFieldDecorator 里面validator compareToFirstPassword,然后input.password*/
                     {getFieldDecorator('confirm', {
                         rules: [
                             {
@@ -112,7 +112,7 @@ console.log(this.props.form);
                                 validator: this.compareToFirstPassword,
                             },
                         ],
-                    })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+                    })(<Input.Password onBlur={this.handleConfirmBlur} />)} /*handleConfirmBlue only be in the confirm password section to make first confirm passwor and then password possible. The other does not need it, 自然而然validation 按顺序code*/
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
