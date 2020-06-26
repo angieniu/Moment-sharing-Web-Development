@@ -103,7 +103,7 @@ export class Home extends React.Component {
 
     // has error // loading geolocation: isLoadingGeoLocation //loading posts // have posts ready // posts.length > 0 有数据
     //filter: 删除不需要的数据 remove video post
-    //return <Gallery /> 可以打印Gallery字样
+    //return <Gallery /> 进入Gallery组件
     renderImagePosts() {
         const { posts } = this.state;
         const images = posts
