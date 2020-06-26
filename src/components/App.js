@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../styles/App.css';
 import TopBar from './TopBar';
 import Main from './Main';
 
@@ -7,7 +6,7 @@ import { TOKEN_KEY } from '../constants';
 
 class App extends Component{
     state = {
-        isLoggedIn: Boolean(localStorage.getItem(TOKEN_KEY)),
+        isLoggedIn: Boolean(localStorage.getItem(TOKEN_KEY)), // token from server, localStorage in window
     }
 
     handleLoginSucceed = (token) => {
@@ -17,7 +16,7 @@ class App extends Component{
     }
 
     handleLogout = () => {
-        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(TOKEN_KEY); // Token_key, token key value pair
         this.setState({ isLoggedIn: false });
     }
 

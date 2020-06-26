@@ -1,7 +1,8 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { Link } from 'react-router-dom';
-
+import { API_ROOT } from '../constants';
+import {message} from 'antd';
 class RegistrationForm extends React.Component { //如果直接用RegistrationForm拿不到form, new prop: ""
     state = {
         confirmDirty: false,
@@ -14,6 +15,25 @@ class RegistrationForm extends React.Component { //如果直接用RegistrationFo
             if (!err) {
                 console.log('Received values of form: ', values);
             }
+            fetch(`${API_ROOT}/signup`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: values.username,
+                    password: values.password
+                })
+            })
+                .then(response => {
+                    console.log(response);
+                    if(response.ok) {
+                        return response.text();
+                    }
+                })
+                .then(data => {
+                    console.log(data)
+                    message.success('Register!!')
+                    this.props.history.push('/login'); /*history package -> bom history object, window bom object. React Router 完善*/
+                })
+
         });
     };
 // 光标移出，设置confirmdirty  // handleConfirmBlur confirmDirty 只在handleConfirmBlur中触发变化。而confirmDirty表明confirm password是否有内容。 false || true = true。 本质为了什么：line42触发validate
@@ -77,6 +97,8 @@ console.log(this.props.form);
         // form item style 传入component中, {...formItemLayout}
         // getFieldDecorator rules   {rules: [{: , }],}
         // rules： array
+        /*按顺序执行, getFieldDecorator 里面validator compareToFirstPassword,然后input.password*/
+        /*handleConfirmBlue only be in the confirm password section to make first confirm passwor and then password possible. The other does not need it, 自然而然validation 按顺序code*/
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register">
                 <Form.Item
@@ -101,7 +123,7 @@ console.log(this.props.form);
                     })(<Input.Password />)}
                 </Form.Item>
 
-                <Form.Item label="Confirm Password" hasFeedback>   /*按顺序执行, getFieldDecorator 里面validator compareToFirstPassword,然后input.password*/
+                <Form.Item label="Confirm Password" hasFeedback>
                     {getFieldDecorator('confirm', {
                         rules: [
                             {
@@ -112,7 +134,7 @@ console.log(this.props.form);
                                 validator: this.compareToFirstPassword,
                             },
                         ],
-                    })(<Input.Password onBlur={this.handleConfirmBlur} />)} /*handleConfirmBlue only be in the confirm password section to make first confirm passwor and then password possible. The other does not need it, 自然而然validation 按顺序code*/
+                    })(<Input.Password onBlur={this.handleConfirmBlur} />)}
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">

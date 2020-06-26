@@ -18,3 +18,9 @@
     font-size: 17px;
     color: #61dafb;
 }
+
+.logout {
+    float: right;
+    padding-top: 13px;
+    padding-right: 13px;
+}
