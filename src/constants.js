@@ -1,5 +1,6 @@
+export const API_ROOT = 'https://around-179500.uc.r.appspot.com';
 // export const API_ROOT = 'https://around-179500.uc.r.apphost.com';
-export const API_ROOT = 'https://around-179500.appspot.com'; //server data
+// export const API_ROOT = 'https://around-179500.appspot.com'; //server data
 export const TOKEN_KEY = 'TOKEN_KEY'; //持久登录
 export const GEO_OPTIONS = {
     enableHighAccuracy: true,

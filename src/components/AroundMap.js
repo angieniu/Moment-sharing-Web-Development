@@ -7,6 +7,9 @@ import {
     GoogleMap,
 } from "react-google-maps";
 
+import AroundMarker from './AroundMarker';
+
+
 class NormalAroundMap extends Component {
     getMapRef = (mapInstance) => {
         this.map = mapInstance;
@@ -16,7 +19,8 @@ class NormalAroundMap extends Component {
     reloadMarker = () => {
         const center = this.getCenter();
         const radius = this.getRadius();
-        this.props.loadNearbyPosts(center, radius);
+        // this.props.loadNearbyPosts(center, radius);
+        this.props.loadPostsByTopic(center, radius);
     }
 
     getCenter() {
@@ -44,6 +48,7 @@ class NormalAroundMap extends Component {
                 onDragEnd={this.reloadMarker}
                 onZoomChanged={this.reloadMarker}
             >
+                {this.props.posts.map((post) => <AroundMarker post={post} key={post.url} />)}
                 {/*{this.props.posts.map((post) => <AroundMarker post={post} key={post.url} />)}*/}
             </GoogleMap>
         );

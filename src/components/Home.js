@@ -57,11 +57,12 @@ export class Home extends React.Component {
         this.setState({ isLoadingGeoLocation: false, error: 'Failed to load geo location.' });
     }
 // fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=20000`, {
+    // fetch(`${API_ROOT}/search?lat=${37}&lon=${-121}&range=20000`, {
     loadNearbyPosts = () => {
         const { lat, lon } = JSON.parse(localStorage.getItem(POS_KEY));
         const token = localStorage.getItem(TOKEN_KEY);
         this.setState({ isLoadingPosts: true, error: '' });
-        fetch(`${API_ROOT}/search?lat=${37}&lon=${-121}&range=20000`, {
+        fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=20000`, {
             method: 'GET',
             headers: {
                 Authorization: `${AUTH_HEADER} ${token}`
@@ -121,6 +122,28 @@ export class Home extends React.Component {
         return <Gallery images={images}/>
     }
 
+    // video controls 允许用户control video
+    // Each column has horizontal padding (called a gutter) for controlling the space between them.
+    /*
+    includes no array inside
+    Underscore.js: contains,
+
+    */
+    /*
+    The controls attribute is a boolean attribute.
+
+When present, it specifies that video controls should be displayed.
+
+Video controls should include:
+
+Play
+Pause
+Seeking
+Volume
+Fullscreen toggle
+Captions/Subtitles (when available)
+Track (when available)
+    * */
     renderVideoPosts() {
         const { posts } = this.state;
         return (
