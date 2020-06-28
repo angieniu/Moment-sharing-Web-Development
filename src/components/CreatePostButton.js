@@ -13,7 +13,7 @@ constructor{
     this.myRef = React.createRef()
 }
 
-redner(){
+render(){
     <div ref={this.myRef}>haha</div>
 }
 
@@ -45,15 +45,15 @@ class CreatePostButton extends Component {
             if (!err) {
                 // url (token, position)
                 const token = localStorage.getItem(TOKEN_KEY);
-                // string json.parse
+                // position, string json.parse to json
                 const { lat, lon } = JSON.parse(localStorage.getItem(POS_KEY));
-                // file
+                // file FormData constructor new 一个
                 const formData = new FormData();
                 formData.set('lat', lat);
                 formData.set('lon', lon);
                 formData.set('message', values.message);
                 formData.set('image', values.image[0].originFileObj); //image array
-            //FormData send data to server
+            //FormData send data to server 上传文件，通过http request在后端上传，不需要刷新页面。key value pari 组织文件类型，append or delete data (FormData API), FormData是构造函数。FormData.prototype所提供的所有方法和属性。parent是object。
                 //post方法 //${AUTH_HEADER} 插值
                 this.setState({ confirmLoading: true });
                 fetch(`${API_ROOT}/post`, {
@@ -63,12 +63,16 @@ class CreatePostButton extends Component {
                     },
                     body: formData,
                 })
+                    // 表示和后端已经有交互，后端返回response。 response如果正常，需要重新render post，render post函数在nearby button home下面。
                     .then((response) => {
                         if (response.ok) {
+                            //从home.js父传来的函数 成功返回了运行结果，就让upload窗口关闭掉，否则报错throw new error
+                            //return .then()
                             return this.props.loadNearbyPosts();
                         }
                         throw new Error('Failed to create post.');
                     })
+                    // 关闭窗口 post数据清空，form函数resetFields数据
                     .then(() => {
                         this.setState({ visible: false, confirmLoading: false });
                         this.form.resetFields();
@@ -92,10 +96,12 @@ class CreatePostButton extends Component {
 
     //先定义函数，再传入函数。createRef也可以
     getFormRef = (formInstance) => {
+
         this.form = formInstance;
     }
 
 //Modal对话框 //uncontrolled input, ref could get CreatePostForm // .操作耗性能，so this.state 解构
+    // refer传的对象赋值给this.form,即赋值给component本身作为component的属性
     render() {
         const { visible, confirmLoading } = this.state;
         return (
@@ -111,6 +117,7 @@ class CreatePostButton extends Component {
                     confirmLoading={confirmLoading}
                     onCancel={this.handleCancel}
                 >
+
                     <CreatePostForm ref={this.getFormRef}/>
                 </Modal>
             </div>

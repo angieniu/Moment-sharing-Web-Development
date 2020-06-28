@@ -11,6 +11,7 @@ class NormalCreatePostForm extends React.Component {
     };
 
     beforeUpload = () => false;
+    // beforeUpload 不直接upload
 // getFieldDecorate函数(校验规则key， rules)(ui) // action自动上传 beforeUpload 手动上传
     //getValueFromEvent: this.normFile 函数
     //上传两种： 1. 选择file ->执行上传  2.选择file -> click button ->上传 ✔️
@@ -47,6 +48,7 @@ class NormalCreatePostForm extends React.Component {
                     </div>
                 </Form.Item>
             </Form>
+
         );
     }
 }

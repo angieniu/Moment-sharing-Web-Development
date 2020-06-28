@@ -134,7 +134,7 @@ export class Home extends React.Component {
 
 When present, it specifies that video controls should be displayed.
 
-Video controls should include:
+html 5 video tag, Video controls should include:
 
 Play
 Pause
@@ -149,6 +149,7 @@ Track (when available)
         return (
             <Row gutter={30}>
                 {
+                    // post.type = string POST_TYPE_VIDEO,    POST_TYPE_UNKNOWN 的任意一个
                     posts
                         .filter((post) => [POST_TYPE_VIDEO,    POST_TYPE_UNKNOWN].includes(post.type))
                         .map((post) => (
