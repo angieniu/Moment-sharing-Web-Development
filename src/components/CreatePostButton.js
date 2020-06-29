@@ -94,7 +94,7 @@ class CreatePostButton extends Component {
         });
     };
 
-    //先定义函数，再传入函数。createRef也可以
+    //先定义函数，再传入函数。createRef也可以 // 在点击CreatePostButton的时候，就已经有formInstance生成了，
     getFormRef = (formInstance) => {
 
         this.form = formInstance;
@@ -102,6 +102,7 @@ class CreatePostButton extends Component {
 
 //Modal对话框 //uncontrolled input, ref could get CreatePostForm // .操作耗性能，so this.state 解构
     // refer传的对象赋值给this.form,即赋值给component本身作为component的属性
+    //this是同一个this指向当前component
     render() {
         const { visible, confirmLoading } = this.state;
         return (
