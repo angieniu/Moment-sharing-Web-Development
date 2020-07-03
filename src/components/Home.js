@@ -171,6 +171,7 @@ Track (when available)
         // current selected value
         const topic = e.target.value;
         //reset
+        // this.setState({topic: topic});  简写如下因为重名
         this.setState({ topic });
         //case1: topic around -> load nearby
         if (topic === TOPIC_AROUND) {
@@ -183,16 +184,18 @@ Track (when available)
     }
 
     loadFacesAroundTheWolrd = () => {
+        // 去后端拿数据，先校验
         const token = localStorage.getItem(TOKEN_KEY);
         // set status to loading
         this.setState({ isLoadingPosts: true, error: '' });
-        // fetch data from server
+        // fetch data from server url，配置信息 向后端发送api请求
         return fetch(`${API_ROOT}/cluster?term=face`, {
             method: 'GET',
             headers: {
                 Authorization: `${AUTH_HEADER} ${token}`,
             }
         })
+            //拿到后端返回数据
             .then((response) => {
                 if (response.ok) {
                     return response.json();

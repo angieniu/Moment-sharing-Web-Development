@@ -119,7 +119,11 @@ class CreatePostButton extends Component {
                     onCancel={this.handleCancel}
                 >
                     <CreatePostForm ref={this.getFormRef}/>
-                    {/*<CreatePostForm ref={*/}
+                    {/*通过ref定义ref属性给CreatePostForm,后面的ref跟了回调函数，帮助我们拿到定义ref的component。调用回调函数的时候，react会传入一个对象，这个对象就是定义ref的对象，这个component。 ref成为了回调函数，reasct keyword,在当前的js被触发，由react决定什么时候调用它。一进入CreatePostButton就会看到这个form出来了，不是父子相传。是ref的用法，不是数据传递，是react的关键字key。
+                     <CreatePostForm> 创建实例，上树,constructor
+                     <CreatePostForm ref={cb}
+                       ref ={cb}成为callback function {} 函数之意
+                     */}
                     {/*    form => {*/}
                     {/*        this.form == form*/}
                     {/*    }*/}
