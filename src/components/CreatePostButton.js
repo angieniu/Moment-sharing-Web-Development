@@ -118,8 +118,12 @@ class CreatePostButton extends Component {
                     confirmLoading={confirmLoading}
                     onCancel={this.handleCancel}
                 >
-
                     <CreatePostForm ref={this.getFormRef}/>
+                    {/*<CreatePostForm ref={*/}
+                    {/*    form => {*/}
+                    {/*        this.form == form*/}
+                    {/*    }*/}
+                    {/*}/>*/}
                 </Modal>
             </div>
         );

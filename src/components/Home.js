@@ -25,6 +25,7 @@ export class Home extends React.Component {
         isLoadingPosts: false,
         error: '',
         posts: [],
+        topic: TOPIC_AROUND
     }
 
     // When the component is rendered to the DOM for the first time
@@ -58,11 +59,14 @@ export class Home extends React.Component {
     }
 // fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=20000`, {
     // fetch(`${API_ROOT}/search?lat=${37}&lon=${-121}&range=20000`, {
-    loadNearbyPosts = () => {
-        const { lat, lon } = JSON.parse(localStorage.getItem(POS_KEY));
+    loadNearbyPosts = (center, radius) => {
+        const { lat, lon } = center ? center : JSON.parse(localStorage.getItem(POS_KEY));
+        const range = radius ? radius : 20;
+        // loadNearbyPosts = () => {
+    //     const { lat, lon } = JSON.parse(localStorage.getItem(POS_KEY));
         const token = localStorage.getItem(TOKEN_KEY);
         this.setState({ isLoadingPosts: true, error: '' });
-        fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=20000`, {
+        return fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=${range}`, {
             method: 'GET',
             headers: {
                 Authorization: `${AUTH_HEADER} ${token}`
@@ -164,18 +168,25 @@ Track (when available)
     }
 
     handleTopicChange = (e) => {
+        // current selected value
         const topic = e.target.value;
+        //reset
         this.setState({ topic });
+        //case1: topic around -> load nearby
         if (topic === TOPIC_AROUND) {
             this.loadNearbyPosts();
-        } else {
+        }
+        // case2: face around -> load facearound
+        else {
             this.loadFacesAroundTheWolrd();
         }
     }
 
     loadFacesAroundTheWolrd = () => {
         const token = localStorage.getItem(TOKEN_KEY);
+        // set status to loading
         this.setState({ isLoadingPosts: true, error: '' });
+        // fetch data from server
         return fetch(`${API_ROOT}/cluster?term=face`, {
             method: 'GET',
             headers: {
@@ -236,6 +247,7 @@ Track (when available)
                         loadingElement={<div style={{ height: `100%` }} />}
                         containerElement={<div style={{ height: `600px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}
+                        //父传子 key value pair
                         posts={this.state.posts}
                         loadPostsByTopic={this.loadPostsByTopic}
                         // loadNearbyPosts={this.loadNearbyPosts}

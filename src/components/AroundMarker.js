@@ -1,10 +1,11 @@
 import React from 'react';
 import { Marker, InfoWindow } from 'react-google-maps';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'; //类型校验
 import blueMarkerUrl from '../assets/images/blue-marker.svg';
 
-
+// tomchentw.github.io/react-google-maps/#marker
 class AroundMarker extends React.Component {
+    // props 类型的类型校验,一定是object 并且is required.
     static propTypes = {
         post: PropTypes.object.isRequired,
     }
@@ -12,7 +13,7 @@ class AroundMarker extends React.Component {
     state = {
         isOpen: false,
     }
-
+//prevState两种方法  // AroundMap.js里面需要写上post={post} 然后这里使用this.props.post
     handleToggle = () => {
         this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
     }
@@ -30,7 +31,7 @@ class AroundMarker extends React.Component {
             <Marker
                 position={{ lat, lng: lon }}
                 onMouseOver={isImagePost ? this.handleToggle : undefined}
-                onMouseOut={isImagePost ? this.handleToggle : undefined}
+                onMouseOut={isImagePost ? this.handleToggle: undefined}
                 onClick={isImagePost ? undefined: this.handleToggle}
                 icon={customIcon}
 
